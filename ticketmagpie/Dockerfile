@@ -1,0 +1,3 @@
+FROM codecop/ticketmagpie
+ENV SPRING_PROFILES_ACTIVE=hsqldb
+EXPOSE 8080
