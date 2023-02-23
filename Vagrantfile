@@ -74,21 +74,38 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
      apt-get update
+
+     # Install docker
      apt-get -y install docker.io
      systemctl enable docker --now 
      usermod -aG docker vagrant 
 
+     # Install snapd
+     apt-get -y install snapd
+     systemctl enable --now snapd
+     #systemctl enable --now snapd.apparmor
+
+     # Install vscode
+     apt-get install code-oss -y
+
+     # Install container juiceshop as a service
      docker build -t juiceshop /home/vagrant/juiceshop/
      docker create -p3000:3000 --name=juiceshop juiceshop
      ln -s /home/vagrant/juiceshop/docker.juiceshop.service /etc/systemd/system/
      systemctl enable docker.juiceshop
      service docker.juiceshop start
 
+     # Install container ticketmagpie as a service
      docker build -t ticketmagpie /home/vagrant/ticketmagpie/
      docker create -p8080:8080 --name=ticketmagpie ticketmagpie
      ln -s /home/vagrant/ticketmagpie/docker.ticketmagpie.service /etc/systemd/system/
      systemctl enable docker.ticketmagpie
      service docker.ticketmagpie start
+
+     # Install OWASP Threat Dragon
+     snap install threat-dragon
+     # Add /snap/bin/ to PATH
+     ex +'$s@$@\rexport PATH=/snap/bin/:$PATH@' -cwq /home/vagrant/.zshrc
   SHELL
 
 end
