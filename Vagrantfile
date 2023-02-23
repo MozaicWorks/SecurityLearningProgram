@@ -71,6 +71,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "file", source: "./juiceshop/", destination: "/home/vagrant/"
   config.vm.provision "file", source: "./ticketmagpie/", destination: "/home/vagrant/"
+  config.vm.provision "file", source: "./threatdragon", destination: "/home/vagrant/"
 
   config.vm.provision "shell", inline: <<-SHELL
      apt-get update
@@ -79,11 +80,6 @@ Vagrant.configure("2") do |config|
      apt-get -y install docker.io
      systemctl enable docker --now 
      usermod -aG docker vagrant 
-
-     # Install snapd
-     apt-get -y install snapd
-     systemctl enable --now snapd
-     #systemctl enable --now snapd.apparmor
 
      # Install vscode
      apt-get install code-oss -y
@@ -103,9 +99,10 @@ Vagrant.configure("2") do |config|
      service docker.ticketmagpie start
 
      # Install OWASP Threat Dragon
-     snap install threat-dragon
-     # Add /snap/bin/ to PATH
-     ex +'$s@$@\rexport PATH=/snap/bin/:$PATH@' -cwq /home/vagrant/.zshrc
+     cd /usr/share/applications/ && wget https://github.com/OWASP/threat-dragon/releases/download/v1.6.1/OWASP-Threat-Dragon-1.6.1.AppImage
+     chmod a+x /usr/share/applications/OWASP-Threat-Dragon-1.6.1.AppImage
+     ln -s /usr/share/applications/OWASP-Threat-Dragon-1.6.1.AppImage /usr/share/applications/threatdragon
+     cp /home/vagrant/threatdragon/ThreatDragon.desktop /usr/share/applications/
   SHELL
 
 end

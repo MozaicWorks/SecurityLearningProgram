@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Threat Dragon
+Exec=/usr/share/applications/threatdragon
+Icon=Threat Dragon
+Type=Application
+Categories=GTK;GNOME;Utility;
