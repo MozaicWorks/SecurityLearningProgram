@@ -29,7 +29,8 @@ vagrant up
 
 ## How to Use
 
-* Login with vagrant/vagrant
+* Login with `vagrant`/`vagrant`
 * Check that the web apps are started on localhost:8080 and localhost:3000
+* Launch ThreatDragon
 * Have fun with security testing!
 
