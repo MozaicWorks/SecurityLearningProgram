@@ -100,11 +100,11 @@ Vagrant.configure("2") do |config|
      service docker.ticketmagpie start
 
      # Install container webgoat as a service
-     # docker build -t webgoat /home/vagrant/webgoat/
-     # docker create -p8080:9090 -p9090:1010 -e TZ=Europe/Bucharest --name=webgoat webgoat
-     # ln -s /home/vagrant/webgoat/docker.webgoat.service /etc/systemd/system/
-     # systemctl enable docker.webgoat
-     # service docker.webgoat start
+     docker build -t webgoat /home/vagrant/webgoat/
+     docker create -p8080:8080 -p9090:9090 -eTZ=Europe/Bucharest --name=webgoat webgoat
+     ln -s /home/vagrant/webgoat/docker.webgoat.service /etc/systemd/system/
+     #systemctl enable docker.webgoat
+     #service docker.webgoat start
 
      # Install OWASP Threat Dragon
      cd /usr/share/applications/ && wget https://github.com/OWASP/threat-dragon/releases/download/v1.6.1/OWASP-Threat-Dragon-1.6.1.AppImage
