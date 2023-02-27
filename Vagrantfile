@@ -72,6 +72,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "./juiceshop/", destination: "/home/vagrant/"
   config.vm.provision "file", source: "./ticketmagpie/", destination: "/home/vagrant/"
   config.vm.provision "file", source: "./threatdragon", destination: "/home/vagrant/"
+  config.vm.provision "file", source: "./webgoat", destination: "/home/vagrant/"
 
   config.vm.provision "shell", inline: <<-SHELL
      apt-get update
@@ -97,6 +98,13 @@ Vagrant.configure("2") do |config|
      ln -s /home/vagrant/ticketmagpie/docker.ticketmagpie.service /etc/systemd/system/
      systemctl enable docker.ticketmagpie
      service docker.ticketmagpie start
+
+     # Install container webgoat as a service
+     # docker build -t webgoat /home/vagrant/webgoat/
+     # docker create -p8080:9090 -p9090:1010 -e TZ=Europe/Bucharest --name=webgoat webgoat
+     # ln -s /home/vagrant/webgoat/docker.webgoat.service /etc/systemd/system/
+     # systemctl enable docker.webgoat
+     # service docker.webgoat start
 
      # Install OWASP Threat Dragon
      cd /usr/share/applications/ && wget https://github.com/OWASP/threat-dragon/releases/download/v1.6.1/OWASP-Threat-Dragon-1.6.1.AppImage
